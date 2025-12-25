@@ -1,0 +1,390 @@
+:root {
+    --bg-color: #0f172a;
+    /* Azul noche profundo */
+    --envelope-color: #e63946;
+    /* Rojo Navidad/Amor */
+    --envelope-inner: #f1faee;
+    /* Blanco suave */
+    --flap-color: #d62828;
+    /* Rojo más oscuro para contraste */
+    --gold: #ffb703;
+    --text-color: #1d3557;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('assets/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--envelope-inner);
+}
+
+#snow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.snowflake {
+    position: absolute;
+    color: #fff;
+    font-size: 1em;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 0.6s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--envelope-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.envelope::before {
+    /* Inside color */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--envelope-inner);
+    z-index: 1;
+}
+
+.front {
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 3;
+}
+
+.flap {
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-top: 110px solid var(--flap-color);
+    transform-origin: top;
+    transition: transform 0.6s ease, z-index 0.2s;
+    z-index: 4;
+}
+
+.pocket {
+    border-left: 150px solid var(--envelope-color);
+    border-right: 150px solid var(--envelope-color);
+    border-bottom: 100px solid var(--flap-color);
+    border-top: 100px solid transparent;
+    bottom: 0;
+}
+
+.letter {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 90%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    transition: transform 0.8s ease-in-out, height 0.8s ease-in-out, top 0.8s ease-in-out, z-index 0.1s;
+    overflow: hidden;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.letter-content {
+    opacity: 0;
+    transition: opacity 0.5s ease 0.4s;
+}
+
+.header-decor h1 {
+    font-family: 'Great Vibes', cursive;
+    color: var(--flap-color);
+    font-size: 2rem;
+    margin: 0.5rem 0;
+}
+
+
+.greeting {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.signature,
+.closing {
+    font-weight: 700;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.25rem;
+}
+
+.body-text {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    max-width: 600px;
+    margin: auto;
+    hyphens: auto;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+}
+
+.heart-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50px);
+    font-size: 3rem;
+    color: var(--flap-color);
+    z-index: 5;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    animation: heartbeat 1.5s infinite;
+    cursor: pointer;
+    transition: opacity 0.4s;
+    background: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--gold);
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: translate(-50%, -50px) scale(1);
+    }
+
+    15% {
+        transform: translate(-50%, -50px) scale(1.15);
+    }
+
+    30% {
+        transform: translate(-50%, -50px) scale(1);
+    }
+
+    45% {
+        transform: translate(-50%, -50px) scale(1.15);
+    }
+
+    100% {
+        transform: translate(-50%, -50px) scale(1);
+    }
+}
+
+.envelope-wrapper.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-wrapper.open .letter {
+    height: 400px;
+    top: -150px;
+    transform: scale(1.1);
+    z-index: 10;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    .envelope-wrapper.open .letter {
+        width: 90vw;
+        height: 70vh;
+        left: 50%;
+        transform: translate(-50%, 0) scale(1);
+        top: -100px;
+        position: fixed;
+    }
+}
+
+.envelope-wrapper.open .letter-content {
+    opacity: 1;
+}
+
+.envelope-wrapper.open .heart-seal {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.instruction-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    transition: opacity 0.5s;
+    animation: fadePulse 2s infinite alternate;
+}
+
+@keyframes fadePulse {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Close Button */
+.close-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--flap-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* Background Decorations (Images) */
+.background-decorations {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 250px;
+    /* Taller for images */
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 5%;
+}
+
+.decor-img {
+    position: relative;
+    max-height: 150px;
+    width: auto;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease;
+}
+
+/* Tree */
+.tree {
+    transform-origin: bottom center;
+    max-height: 570px;
+    /* Tree usually bigger */
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    /* Gold glow */
+}
+
+/* Snowman */
+.snowman {
+    /* If jpg has white bg, make it round */
+    border-radius: 20px;
+    /* Soft edges just in case */
+    /* mix-blend-mode: lighten;  Try this for white bg removal on dark? No, white stays white. */
+    /* Let's assume user accepts the box or it's transparent. If boxy, add border */
+    transform: rotate(5deg);
+    max-height: 300px;
+    margin-bottom: 40px;
+    margin-right: 150px;
+    animation: sway 4s infinite ease-in-out;
+}
+
+@keyframes dance {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: rotate(5deg);
+    }
+
+    50% {
+        transform: rotate(-5deg);
+    }
+}
+
+/* Responsive adjustment for decor */
+@media (max-width: 480px) {
+    .background-decorations {
+        padding: 0 2%;
+        height: 150px;
+    }
+
+    .tree {
+        max-height: 320px;
+    }
+
+    .snowman {
+        max-height: 80px;
+    }
+
+}
