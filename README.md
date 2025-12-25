@@ -1,1 +1,1 @@
-# AdictoAlVino.github.io
+(/docs/index.html)
